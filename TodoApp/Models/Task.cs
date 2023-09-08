@@ -9,12 +9,17 @@ namespace TodoApp.Models
         public string Title { get; set; }
         public string? Description { get; set; }
 
+        [Display(Name ="Created at")]
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; } = System.DateTime.Now;
 
+        [Display(Name = "Done at")]
         [DataType(DataType.DateTime)]
-        public DateTime DueDate { get; set; }
-        public Priority priority { get; set; }
+        public DateTime DoneAt { get; set; }
+
+        [Display(Name = "Priority")]
+        [EnumDataType(typeof(Priority))]
+        public Priority Priority { get; set; }
         public bool IsDone { get; set; }
     }
 }
