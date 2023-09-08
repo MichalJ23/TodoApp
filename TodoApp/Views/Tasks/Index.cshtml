@@ -43,7 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Priority)
             </td>
             <td>
-                <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-success" asp-action="MarkTaskAsDone" asp-route-id="@item.Id">Mark as done</a>
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>

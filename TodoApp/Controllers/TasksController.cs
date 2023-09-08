@@ -155,5 +155,22 @@ namespace TodoApp.Controllers
         {
           return (_context.Task?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public async Task<IActionResult> MarkTaskAsDone(int? id)
+        {
+            if (id == null || _context.Task == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.Task.FirstOrDefaultAsync(m => m.Id == id);
+            if (task != null)
+            {
+                task.IsDone = true;
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
