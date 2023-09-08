@@ -54,7 +54,7 @@ namespace TodoApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,CreatedAt,DueDate,priority,IsDone")] Models.Task task)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,CreatedAt,DueDate,Priority,IsDone")] Models.Task task)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace TodoApp.Controllers
         // POST: Tasks/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,CreatedAt,DueDate,priority,IsDone")] Models.Task task)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,CreatedAt,DueDate,Priority,IsDone")] Models.Task task)
         {
             if (id != task.Id)
             {

@@ -15,7 +15,8 @@ namespace TodoApp.Models
 
         [Display(Name = "Done at")]
         [DataType(DataType.DateTime)]
-        public DateTime DoneAt { get; set; }
+        [DisplayFormat(NullDisplayText = "Not done")]
+        public DateTime? DoneAt { get; set; }
 
         [Display(Name = "Priority")]
         [EnumDataType(typeof(Priority))]
