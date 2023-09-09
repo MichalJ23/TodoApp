@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Data;
 using TodoApp.Models;
@@ -20,11 +21,45 @@ namespace TodoApp.Controllers
         }
 
         // GET: Tasks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-              return _context.Task != null ? 
-                          View(await _context.Task.ToListAsync()) :
-                          Problem("Entity set 'TodoAppContext.Task'  is null.");
+            ViewBag.NameSortParm = 
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "priority_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            var tasks = from t in _context.Task
+                        where t.IsDone == false
+                        select t;
+
+            if (tasks == null)
+                return NotFound();
+
+            switch (sortOrder)
+            {
+                case "Date":
+                    tasks = tasks.OrderBy(s => s.CreatedAt);
+                    break;
+                case "date_desc":
+                    tasks = tasks.OrderByDescending(s => s.CreatedAt);
+                    break;
+                case "priority_desc":
+                    tasks = tasks.OrderByDescending(s => s.Priority);
+                    break;
+                default:
+                    tasks = tasks.OrderBy(s => s.Priority);
+                    break;
+            }
+
+            return View(tasks);
+        }
+
+        public async Task<IActionResult> TasksDone()
+        {
+            var tasks = await _context.Task
+                .Where(t => t.IsDone == true)
+                .ToListAsync();
+
+            return tasks != null ? View(tasks) : Problem("There are no done tasks.");
         }
 
         // GET: Tasks/Details/{id}
@@ -167,6 +202,7 @@ namespace TodoApp.Controllers
             if (task != null)
             {
                 task.IsDone = true;
+                task.DoneAt = DateTime.Now;
             }
 
             await _context.SaveChangesAsync();

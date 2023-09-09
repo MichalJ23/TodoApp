@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.ComponentModel.DataAnnotations;
 using TodoApp.Data;
 
 namespace TodoApp.Models
@@ -21,6 +22,33 @@ namespace TodoApp.Models
         [Display(Name = "Priority")]
         [EnumDataType(typeof(Priority))]
         public Priority Priority { get; set; }
+
         public bool IsDone { get; set; }
+
+        [Display(Name = "Status")]
+        public string DisplayIsDone
+        {
+            get
+            {
+                return IsDone ? "Done" : "Not done";
+            }
+        }
+
+        public string GetPriorityColor
+        {
+            get
+            {
+                switch (Priority)
+                {
+                    case Priority.Low:
+                        return "text-primary";
+                    case Priority.Medium:
+                        return "text-warning";
+                    case Priority.High:
+                        return "text-danger";
+                }
+                return "";
+            }
+        }
     }
 }

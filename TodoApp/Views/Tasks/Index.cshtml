@@ -19,10 +19,10 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.CreatedAt), "Index", new {sortOrder = ViewBag.DateSortParm})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Priority)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.Priority), "Index", new {sortOrder = ViewBag.NameSortParm})
             </th>
             <th></th>
         </tr>
@@ -39,7 +39,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
-            <td>
+            <td class="@Html.DisplayFor(modelItem => item.GetPriorityColor)">
                 @Html.DisplayFor(modelItem => item.Priority)
             </td>
             <td>
@@ -54,3 +54,6 @@
 }
     </tbody>
 </table>
+
+
+
