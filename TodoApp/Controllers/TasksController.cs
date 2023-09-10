@@ -23,7 +23,6 @@ namespace TodoApp.Controllers
         // GET: Tasks
         public async Task<IActionResult> Index(string sortOrder)
         {
-            ViewBag.NameSortParm = 
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "priority_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
@@ -56,7 +55,7 @@ namespace TodoApp.Controllers
         public async Task<IActionResult> TasksDone()
         {
             var tasks = await _context.Task
-                .Where(t => t.IsDone == true)
+                .Where(t => t.IsDone == true || t.DoneAt == null)
                 .ToListAsync();
 
             return tasks != null ? View(tasks) : Problem("There are no done tasks.");
@@ -203,6 +202,23 @@ namespace TodoApp.Controllers
             {
                 task.IsDone = true;
                 task.DoneAt = DateTime.Now;
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> MarkTaskAsNotDone(int? id)
+        {
+            if (id == null || _context.Task == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.Task.FirstOrDefaultAsync(m => m.Id == id);
+            if (task != null)
+            {
+                task.IsDone = true;
             }
 
             await _context.SaveChangesAsync();

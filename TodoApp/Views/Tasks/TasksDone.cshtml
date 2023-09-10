@@ -44,7 +44,7 @@
                     @Html.DisplayFor(modelItem => item.DoneAt)
                 </td>
 
-                <td>
+                <td class="@Html.DisplayFor(modelItem => item.GetPriorityColor)">
                     @Html.DisplayFor(modelItem => item.Priority)
                 </td>
                 <td>

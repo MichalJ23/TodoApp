@@ -10,13 +10,14 @@ namespace TodoApp.Models
         public string Title { get; set; }
         public string? Description { get; set; }
 
-        [Display(Name ="Created at")]
+        [Display(Name ="Created at"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
+
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; } = System.DateTime.Now;
 
         [Display(Name = "Done at")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(NullDisplayText = "Not done")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", NullDisplayText = "Not done")]
         public DateTime? DoneAt { get; set; }
 
         [Display(Name = "Priority")]
@@ -24,6 +25,7 @@ namespace TodoApp.Models
         public Priority Priority { get; set; }
 
         public bool IsDone { get; set; }
+
 
         [Display(Name = "Status")]
         public string DisplayIsDone
